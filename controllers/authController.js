@@ -26,27 +26,27 @@ console.log("Register API hit");
   }
 };
 
-// exports.login = async (req, res) => {
-//   try {
-//     const { email, password } = req.body;
+exports.login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-//     // Check user
-//     const user = await User.findOne({ email });
-//     if (!user) return res.status(400).json("User not found");
+    // Check user
+    const user = await User.findOne({ email });
+    if (!user) return res.status(400).json("User not found");
 
-//     // Compare password
-//     const isMatch = await bcrypt.compare(password, user.password);
-//     if (!isMatch) return res.status(400).json("Invalid credentials");
+    // Compare password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json("Invalid credentials");
 
-//     // Create token
-//     const token = jwt.sign(
-//       { id: user._id },
-//       process.env.JWT_SECRET,
-//       { expiresIn: "1d" }
-//     );
+    // Create token
+    const token = jwt.sign(
+      { id: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
 
-//     res.json({ token, user });
-//   } catch (err) {
-//     res.status(500).send(err.message);
-//   }
-// };
+    res.json({ token, user });
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};

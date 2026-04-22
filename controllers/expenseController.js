@@ -4,7 +4,7 @@ exports.addExpense = async (req, res) => {
   try {
     console.log("API HIT", req.body);
 
-    const { title, amount, category } = req.body;
+    const { title, amount, category, date } = req.body;
 
     const expense = new Expense({
       title,
@@ -47,7 +47,7 @@ exports.deleteExpense = async (req, res) => {
 
 exports.updateExpense = async (req, res) => {
   try {
-    const { title, amount, category } = req.body;
+    const { title, amount, category, date } = req.body;
 
     const updated = await Expense.findByIdAndUpdate(
       req.params.id,
