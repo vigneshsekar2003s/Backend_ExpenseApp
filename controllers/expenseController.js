@@ -1,32 +1,26 @@
-const Expense = require('../models/expense'); 
+const Expense = require('../models/expense');
 
 exports.addExpense = async (req, res) => {
   try {
-    console.log("API HIT", req.body);
-
     const { title, amount, category, date } = req.body;
 
     const expense = new Expense({
       title,
-      amount: Number(amount), 
-      category
+      amount: Number(amount),
+      category,
+      date,
     });
 
     await expense.save();
-
-    console.log("Saved to DB");
-
     res.json("Expense Added");
   } catch (err) {
-    console.log("ERROR", err);
     res.status(500).send(err.message);
   }
 };
 
-
 exports.getExpenses = async (req, res) => {
   try {
-    const expenses = await Expense.find();
+    const expenses = await Expense.find().sort({ date: -1 });
     res.json(expenses);
   } catch (err) {
     res.status(500).send(err.message);
@@ -35,10 +29,7 @@ exports.getExpenses = async (req, res) => {
 
 exports.deleteExpense = async (req, res) => {
   try {
-    const { id } = req.params;
-
-    await Expense.findByIdAndDelete(id);
-
+    await Expense.findByIdAndDelete(req.params.id);
     res.json("Expense Deleted");
   } catch (err) {
     res.status(500).send(err.message);
@@ -51,7 +42,12 @@ exports.updateExpense = async (req, res) => {
 
     const updated = await Expense.findByIdAndUpdate(
       req.params.id,
-      { title, amount, category },
+      {
+        title,
+        amount: Number(amount),
+        category,
+        date,
+      },
       { new: true }
     );
 
