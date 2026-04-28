@@ -19,11 +19,6 @@ connectDB();
 
 app.use('/api/expenses', require('./routes/expenseRoutes'));
 
-// Test route
-app.get('/test', (req, res) => {
-  res.send("Test route working");
-});
-
 app.get('/', (req, res) => {
   res.send("Server Working");
 });
